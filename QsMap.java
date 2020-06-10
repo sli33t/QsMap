@@ -81,15 +81,16 @@ public class QsMap extends ConcurrentHashMap<String, Object> implements Comparat
 				if (o instanceof Number){
 					return ((Number) o).doubleValue();
 				}else {
-					Double.parseDouble((String) o);
+					return Double.parseDouble((String) o);
 				}
 			} catch (Exception e) {
 				logger.error(msg);
 				throw new NestableRuntimeException(msg);
 			}
+		}else {
+			logger.error(msg);
+			return 0;
 		}
-		logger.error(msg);
-		throw new NestableRuntimeException(msg);
 	}
 
 	/**
@@ -283,12 +284,7 @@ public class QsMap extends ConcurrentHashMap<String, Object> implements Comparat
 		}
 		
 		if (value==null){
-			if (value instanceof Number||value instanceof Integer||value instanceof Float||value instanceof Double||value instanceof Short){
-				//value.getClass().getName().equals(Long.class.getName())
-				value = 0;
-			}else {
-				value = "";
-			}
+			value = "";
 		}
 		
 		return super.put(newKey, value);
